@@ -402,8 +402,12 @@ const abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const selectLetter = [];
 const optionElements = [];
 const liElem = [];
-const filterElem = document.querySelector(".filter");
-const selectElem = document.querySelector(".letter__dropdown");
+const filterElem = document.createElement("div");
+filterElem.classList = "filter";
+const selectElem = document.createElement("select");
+selectElem.classList = "letter__dropdown";
+
+document.querySelector("body").append(filterElem);
 
 const randomLetterFunction = () => {
   const randomNum = Math.floor(Math.random() * abc.length);
@@ -427,19 +431,14 @@ filterElem.append(selectElem);
 
 /******************************************** */
 
-const selectedLetter = document.createElement("p");
-selectedLetter.classList = "selected__letter";
-filterElem.append(selectedLetter);
-
-let selectedOption = "D";
+let selectedOption = "C";
 
 const handleSelectionChange = (event) => {
   event.preventDefault();
-  selectedLetter.textContent = event.target.value;
   selectedOption = event.target.value;
 };
 
-selectElem.addEventListener('change', handleSelectionChange);
+selectElem.addEventListener("change", handleSelectionChange);
 
 /******************************************** */
 
@@ -457,7 +456,7 @@ liElem.map((el, index) => {
 
 const filterredList = liElem.filter(
   (el) =>
-    el.textContent.slice(0, 1).toLowerCase() === selectedOption.toLowerCase() //to do here (value???) prevent default
+    el.textContent.slice(0, 1).toLowerCase() === selectedOption.toLowerCase()
 );
 
 unOrdListElem.append(...filterredList);
