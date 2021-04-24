@@ -397,19 +397,13 @@ const nameList = [
   },
 ];
 
-// create alphabet const +++
-// create an array of 5 +++
-// create random selection of alphabet length +++
-// fill up an array with these letters (cycle?) +++
-
-// create an select HTML tag +++
-// append an array of 5 into it+++
-// crate a HTML and appand list of names into li tag+++
-// create filter
-
 const abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 const selectLetter = [];
+const optionElements = [];
+const liElem = [];
+const filterElem = document.querySelector(".filter");
+const selectElem = document.querySelector(".letter__dropdown");
 
 const randomLetterFunction = () => {
   const randomNum = Math.floor(Math.random() * abc.length);
@@ -419,49 +413,40 @@ const randomLetterFunction = () => {
 for (let i = 0; i <= 5; i++) {
   selectLetter.push(abc[randomLetterFunction()]);
 }
-
-const optionElements = [];
-
 for (let i = 0; i < selectLetter.length; i++) {
   optionElements[i] = document.createElement("option");
 }
-
 optionElements.map((el, index) => {
   el.textContent = selectLetter[index];
   el.classList = "letter__option";
 });
-
 optionElements[0].textContent = "Select a letter";
 
-const selectElem = document.createElement("select");
-selectElem.classList = "letter__dropdown";
-
 selectElem.append(...optionElements);
-
-const bodyTag = document.querySelector("body");
-
-bodyTag.append(selectElem);
+filterElem.append(selectElem);
 
 /******************************************** */
 
 const selectedLetter = document.createElement("p");
-selectedLetter.classList = "selected__letter"
-bodyTag.append(selectedLetter)
+selectedLetter.classList = "selected__letter";
+filterElem.append(selectedLetter);
 
+let selectedOption = "D";
 
-selectElem.addEventListener("change", (event) => {
-  const result = document.querySelector('.selected__letter')
-  result.textContent = event.target.value;
-});
+const handleSelectionChange = (event) => {
+  event.preventDefault();
+  selectedLetter.textContent = event.target.value;
+  selectedOption = event.target.value;
+};
+
+selectElem.addEventListener('change', handleSelectionChange);
 
 /******************************************** */
 
 const unOrdListElem = document.createElement("ul");
 unOrdListElem.classList = "name__list_list";
 
-const liElem = [];
-
-for (let i = 0; i < nameList.length - 1; i++) {
+for (let i = 0; i < nameList.length; i++) {
   liElem[i] = document.createElement("li");
 }
 
@@ -469,9 +454,6 @@ liElem.map((el, index) => {
   el.textContent = nameList[index].name;
   el.classList = "name__list_item";
 });
-
-const selectedOption = document.querySelector('.selected__letter').textContent
-console.log(selectedOption);
 
 const filterredList = liElem.filter(
   (el) =>
@@ -484,4 +466,4 @@ const noMatchesMsg = (document.createElement("h3").textContent =
   "NO MATCHES :(");
 noMatchesMsg.classList = "no__matches_msg";
 
-bodyTag.append(filterredList.length > 0 ? unOrdListElem : noMatchesMsg);
+filterElem.append(filterredList.length > 0 ? unOrdListElem : noMatchesMsg);
